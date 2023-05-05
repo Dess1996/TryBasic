@@ -1,12 +1,23 @@
-class MyClass(Exception):
-    pass
+# Добавочные методы исключени для объектов поведений
+
+class FormatError(Exception):
+    logfile = 'formaterror.txt'
+    
+    def __init__(self, line, file):
+        self.line = line
+        self.file = file
+    
+    def logerror(self):
+        log = open(self.logfile, 'a')
+        print('Error at:', self.file, self.line, file=log)
 
 
-def myraser():
-    raise MyClass
+def parser():
+    raise FormatError(40, 'spam.txt')
 
 
-try:
-    myraser()
-except MyClass:
-    print('захватил')
+if __name__ == '__main__':
+    try:
+        parser()
+    except FormatError as exc:
+        exc.logerror()
